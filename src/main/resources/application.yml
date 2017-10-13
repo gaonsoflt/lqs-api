@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    active: dev
+  data:
+    rest:
+      base-path: /api
+      default-page-size: 10
+  datasource:
+    driver-class-name: org.postgresql.Driver 
+    url: jdbc:postgresql://localhost:5432/lqs?charSet=UTF-8
+    username: lqs
+    password: lqs123qwe
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      use-new-id-generator-mappings: false
+      ddl-auto: none
+  hateoas:
+    use-hal-as-default-json-media-type: false
+security:
+  basic:
+    enabled: false
+      
