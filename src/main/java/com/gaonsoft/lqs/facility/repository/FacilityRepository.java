@@ -1,22 +1,24 @@
-package com.gaonsoft.lqs.farm.repository;
+package com.gaonsoft.lqs.facility.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import com.gaonsoft.lqs.farm.model.Farm;
-import com.gaonsoft.lqs.farm.model.InlineLpr;
+import com.gaonsoft.lqs.facility.model.Facility;
+import com.gaonsoft.lqs.facility.model.InlineLpr;
+
+import java.lang.Long;
 
 @RepositoryRestResource(excerptProjection = InlineLpr.class)
-public interface FarmRepository extends CrudRepository<Farm, Long>{
+public interface FacilityRepository extends CrudRepository<Facility, Long>{
 
 	@Override
 	@RestResource(exported = false)
-	void delete(Farm arg0);
+	void delete(Facility arg0);
 	
 	@Override
 	@RestResource(exported = false)
-	void delete(Iterable<? extends Farm> arg0);
+	void delete(Iterable<? extends Facility> arg0);
 
 	@Override
 	@RestResource(exported = false)
@@ -28,12 +30,9 @@ public interface FarmRepository extends CrudRepository<Farm, Long>{
 
 	@Override
 	@RestResource(exported = false)
-	<S extends Farm> Iterable<S> save(Iterable<S> arg0);
+	<S extends Facility> Iterable<S> save(Iterable<S> arg0);
 
 	@Override
 	@RestResource(exported = false)
-	<S extends Farm> S save(S arg0);
-	
-//	
-//	void updatePassword();
+	<S extends Facility> S save(S arg0);
 }
