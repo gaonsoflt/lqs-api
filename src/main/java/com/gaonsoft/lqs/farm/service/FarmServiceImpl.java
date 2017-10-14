@@ -30,8 +30,7 @@ public class FarmServiceImpl implements FarmService {
 	 */
 	@Override
 	public boolean updatePassword(long id, String password) {
-		Farm farm = new Farm();
-		farm.setFarmSeq(id);
+		Farm farm = farmRepository.findOne(id);
 		farm.setPassword(PwdEncryptor.getEncrypt(password));
 		farmRepository.save(farm);
 		return true;
