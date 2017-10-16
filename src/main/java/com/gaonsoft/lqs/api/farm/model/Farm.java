@@ -29,11 +29,23 @@ public class Farm {
 	@Column(name="farm_name")
 	private String farmName;
 	
+	@Column(name="run_yn")
+	private int runnabled;
+	
 	@JsonIgnore 
 	private String password;
 	
 	@OneToMany
 	@JoinColumn(name="loc_seq")
 	@RestResource(path = "lpr", rel="lpr")
-	private List<Lpr> lpr = new ArrayList<>(); 
+	private List<Lpr> lpr = new ArrayList<>();
+	
+	public boolean isRunnabled() {
+		if(this.runnabled > 0) {
+			return true; 
+		}
+		else {
+			return false;
+		}
+	}
 }

@@ -17,6 +17,7 @@ import com.gaonsoft.lqs.api.farm.model.Farm;
 @Service
 public class FarmServiceImpl implements FarmService {
 
+	
 	@Autowired
 	private FarmRepository farmRepository;
 
@@ -31,7 +32,7 @@ public class FarmServiceImpl implements FarmService {
 	@Override
 	public boolean updatePassword(long id, String password) {
 		Farm farm = farmRepository.findOne(id);
-		farm.setPassword(PwdEncryptor.getEncrypt(password));
+		farm.setPassword(new PwdEncryptor().encode(password));
 		farmRepository.save(farm);
 		return true;
 	}	

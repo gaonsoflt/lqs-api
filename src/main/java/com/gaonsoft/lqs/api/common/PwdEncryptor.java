@@ -3,14 +3,16 @@ package com.gaonsoft.lqs.api.common;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class PwdEncryptor {
-	public static String getEncrypt(String str) {
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+public class PwdEncryptor implements PasswordEncoder {
+	@Override
+	public String encode(CharSequence rawPassword) {
 		String SHA = "";
 
 		try {
 			MessageDigest sh = MessageDigest.getInstance("SHA-256");
-			sh.update(str.getBytes());
+			sh.update(rawPassword.toString().getBytes());
 			byte byteData[] = sh.digest();
 			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < byteData.length; i++) {
@@ -22,5 +24,10 @@ public class PwdEncryptor {
 			SHA = null;
 		}
 		return SHA;
+	}
+
+	@Override
+	public boolean matches(CharSequence rawPassword, String encodedPassword) {
+		return encodedPassword.equals(encode(rawPassword));
 	}
 }
