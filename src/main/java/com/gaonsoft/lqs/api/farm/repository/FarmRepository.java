@@ -33,7 +33,4 @@ public interface FarmRepository extends CrudRepository<Farm, Long>{
 	@Override
 	@RestResource(exported = false)
 	<S extends Farm> S save(S arg0);
-	
-//	
-//	void updatePassword();
 }

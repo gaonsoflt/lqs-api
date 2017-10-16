@@ -1,4 +1,4 @@
-package com.gaonsoft.lqs.api.farm.lpr.model;
+package com.gaonsoft.lqs.api.lpr.model;
 
 import java.util.Date;
 

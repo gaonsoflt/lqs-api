@@ -1,13 +1,10 @@
-package com.gaonsoft.lqs.api.farm.lpr.repository;
+package com.gaonsoft.lqs.api.lpr.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import com.gaonsoft.lqs.api.farm.lpr.model.Lpr;
-
-import java.lang.Long;
-import java.util.List;
+import com.gaonsoft.lqs.api.lpr.model.Lpr;
 
 @RepositoryRestResource
 public interface LprRepository extends CrudRepository<Lpr, Long>{
@@ -35,6 +32,7 @@ public interface LprRepository extends CrudRepository<Lpr, Long>{
 	@Override
 	@RestResource(exported = false)
 	<S extends Lpr> S save(S arg0);
-
-	List<Lpr> findByLocSeq(Long locseq);
+	
+//	@RestResource(path = "location", rel = "location")
+//	List<Lpr> findByLocSeq(Long locSeq);
 }

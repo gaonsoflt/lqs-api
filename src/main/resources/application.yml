@@ -20,5 +20,5 @@ spring:
     use-hal-as-default-json-media-type: false
 security:
   basic:
-    enabled: false
+    enabled: true
       

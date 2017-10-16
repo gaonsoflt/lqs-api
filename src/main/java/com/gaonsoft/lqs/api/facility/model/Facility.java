@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import com.gaonsoft.lqs.api.farm.lpr.model.Lpr;
+import com.gaonsoft.lqs.api.lpr.model.Lpr;
 
 import lombok.Data;
 

@@ -6,8 +6,8 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapt
 
 import com.gaonsoft.lqs.api.car.model.Car;
 import com.gaonsoft.lqs.api.facility.model.Facility;
-import com.gaonsoft.lqs.api.farm.lpr.model.Lpr;
 import com.gaonsoft.lqs.api.farm.model.Farm;
+import com.gaonsoft.lqs.api.lpr.model.Lpr;
 
 @Configuration
 public class RepositoryConfig extends RepositoryRestConfigurerAdapter  {

@@ -1,14 +1,14 @@
-package com.gaonsoft.lqs.api.farm.lpr.controller;
+package com.gaonsoft.lqs.api.lpr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.gaonsoft.lqs.api.farm.lpr.service.LprService;
+import com.gaonsoft.lqs.api.lpr.service.LprService;
 
-@RestController
+@RepositoryRestController
 @RequestMapping("lpr")
 public class LprApiController {
 	

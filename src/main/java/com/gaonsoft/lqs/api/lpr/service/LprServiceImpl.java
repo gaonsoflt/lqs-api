@@ -1,10 +1,10 @@
-package com.gaonsoft.lqs.api.farm.lpr.service;
+package com.gaonsoft.lqs.api.lpr.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gaonsoft.lqs.api.farm.lpr.repository.LprRepository;
 import com.gaonsoft.lqs.api.farm.repository.FarmRepository;
+import com.gaonsoft.lqs.api.lpr.repository.LprRepository;
 import com.gaonsoft.lqs.api.farm.model.Farm;
 
 @Service
