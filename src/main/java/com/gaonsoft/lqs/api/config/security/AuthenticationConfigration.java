@@ -54,7 +54,7 @@ public class AuthenticationConfigration extends AuthorizationServerConfigurerAda
 		// client에 대한 정보를 설정
 		configurer.inMemory()
 			.withClient(CLIENT_ID)
-			.authorizedGrantTypes("password")
+			.authorizedGrantTypes(GRANT_TYPES)
 			.scopes(SCOPE_READ, SCOPE_WRITE)
 			.authorities("ROLE_USER")
 			.resourceIds(RESOURCES_IDS)

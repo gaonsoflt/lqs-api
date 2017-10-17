@@ -59,7 +59,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 			.and()
 		.authorizeRequests()
 			.antMatchers("/login").permitAll()
-			.antMatchers("/test").permitAll()
+			.antMatchers("/api/open/**").permitAll()
 //			.antMatchers("/api/lprs/**").hasRole("ADMIN")
 			.antMatchers("/api/**").hasRole("USER")
 			.anyRequest().authenticated()
