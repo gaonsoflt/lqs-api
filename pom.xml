@@ -90,7 +90,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-jwt</artifactId>
-			<version>1.0.7.RELEASE</version>
+<!-- 			<version>1.0.7.RELEASE</version> -->
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2 -->

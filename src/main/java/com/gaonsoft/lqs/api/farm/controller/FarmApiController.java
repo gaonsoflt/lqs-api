@@ -5,20 +5,20 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gaonsoft.lqs.api.farm.repository.FarmRepository;
 import com.gaonsoft.lqs.api.farm.service.FarmService;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Farm for API")
 //@RepositoryRestController
 @RestController
 @RequestMapping("/api/farms")
@@ -26,6 +26,9 @@ public class FarmApiController {
 
 	@Autowired
 	private FarmService farmService; 
+	
+	@Autowired
+	private FarmRepository farmRepository; 
 	
 	@ApiOperation(
 		value = "updatePassword",
@@ -51,4 +54,10 @@ public class FarmApiController {
 			@RequestBody Map<String, Object> body) {
 		return new ResponseEntity<>(farmService.updatePassword(id, body.get("password").toString()), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	public ResponseEntity<?> get(@PathVariable long id) {
+		return new ResponseEntity<>(farmRepository.findOne(id), HttpStatus.OK);
+	}
+	
 }

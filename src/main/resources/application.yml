@@ -20,5 +20,18 @@ spring:
     use-hal-as-default-json-media-type: false
 security:
   basic:
-    enabled: false
-      
+    enabled: true
+  oauth2:
+    authorization:
+      token-key-access: isAuthenticated()
+    resource:
+      jwt:
+        key-value: MaYzkSjmkzPC57L
+      id: testjwtresourceid
+      filter-order: 3
+    client:
+      id: testjwtclientid
+      authorized-grant-types: 
+        password
+      access-token-validity-seconds: 3600
+      refresh-token-validity-seconds: 3600

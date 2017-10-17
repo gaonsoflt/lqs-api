@@ -8,7 +8,7 @@ import org.springframework.security.access.annotation.Secured;
 import com.gaonsoft.lqs.api.farm.model.Farm;
 import com.gaonsoft.lqs.api.farm.model.InlineLpr;
 
-@RepositoryRestResource(excerptProjection = InlineLpr.class)
+@RepositoryRestResource(excerptProjection = InlineLpr.class, exported= false)
 public interface FarmRepository extends CrudRepository<Farm, Long>{
 
 	@Override

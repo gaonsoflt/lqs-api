@@ -20,7 +20,7 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public LoginUser loadUserByUsername(String username) throws UsernameNotFoundException {
 		Farm farm = userRepository.findOne(Long.valueOf(username)); 
-		LoginUser user = new LoginUser(farm.getFarmSeq(), farm.getPassword(), AuthorityUtils.createAuthorityList("ROLE_APP_USER"));
+		LoginUser user = new LoginUser(farm.getFarmSeq(), farm.getPassword(), AuthorityUtils.createAuthorityList("ROLE_USER"));
 		user.setEnabled(farm.isRunnabled());
 		return user;
 	}
