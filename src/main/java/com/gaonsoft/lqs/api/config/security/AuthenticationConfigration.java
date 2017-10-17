@@ -56,7 +56,7 @@ public class AuthenticationConfigration extends AuthorizationServerConfigurerAda
 			.withClient(CLIENT_ID)
 			.authorizedGrantTypes(GRANT_TYPES)
 			.scopes(SCOPE_READ, SCOPE_WRITE)
-			.authorities("ROLE_USER")
+			.authorities("ROLE_FARM", "ROLE_KIOSK", "ROLE_LPR")
 			.resourceIds(RESOURCES_IDS)
 			.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
 			.secret(SIGNING_KEY);

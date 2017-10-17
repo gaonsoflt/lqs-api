@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.Data;
 
 @Data
-public class LoginUser implements UserDetails{
+public class LoginUser implements UserDetails {
 
 	/**
 	 * 
@@ -21,7 +21,7 @@ public class LoginUser implements UserDetails{
 	
 	private Collection<? extends GrantedAuthority> authorities;
 	
-	private boolean enabled;
+//	private boolean enabled;
 	
 	public LoginUser(Long username, String password, Collection<? extends GrantedAuthority> authorities) {
 		this.usernname = username;
@@ -56,6 +56,7 @@ public class LoginUser implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {
-		return this.enabled;
+		return true;
+//		return this.enabled;
 	} 
 }

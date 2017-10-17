@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/api/farms")
+@RequestMapping("/api/farm")
 public class FarmApiController {
 
 	@Autowired
