@@ -17,8 +17,8 @@ import lombok.Data;
 public class ApiUserRole {
 
 	@Id
-	@Column(name="user_seq")
-	private Long userSeq;
+	@Column(name="user_id")
+	private String userId;
 	
 	@Id
 	@Column(name="role_id")

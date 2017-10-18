@@ -15,7 +15,7 @@ public class LoginUser implements UserDetails {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Long usernname;
+	private String usernname;
 	
 	private String password;
 	
@@ -23,7 +23,7 @@ public class LoginUser implements UserDetails {
 	
 //	private boolean enabled;
 	
-	public LoginUser(Long username, String password, Collection<? extends GrantedAuthority> authorities) {
+	public LoginUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
 		this.usernname = username;
 		this.password = password;
 		this.authorities = authorities;
@@ -36,7 +36,7 @@ public class LoginUser implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return usernname.toString();
+		return this.usernname;
 	}
 
 	@Override

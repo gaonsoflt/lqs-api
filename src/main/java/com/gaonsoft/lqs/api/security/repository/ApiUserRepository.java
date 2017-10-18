@@ -6,5 +6,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import com.gaonsoft.lqs.api.security.model.ApiUser;
 
 @RepositoryRestResource(exported= false)
-public interface ApiUserRepository extends CrudRepository<ApiUser, Long>{
+public interface ApiUserRepository extends CrudRepository<ApiUser, String>{
 }

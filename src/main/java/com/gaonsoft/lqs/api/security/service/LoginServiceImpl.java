@@ -27,13 +27,13 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Override
 	public LoginUser loadUserByUsername(String username) throws UsernameNotFoundException {
-		ApiUser user = userRepository.findOne(Long.valueOf(username));
-		List<ApiUserRole> userRoles = userRoleRepository.findByUserSeq(Long.valueOf(username));
+		ApiUser user = userRepository.findOne(username);
+		List<ApiUserRole> userRoles = userRoleRepository.findByUserId(username);
 		List<String> roles = new ArrayList<>();
 		for (ApiUserRole role : userRoles) {
 			roles.add(role.getRoleId());
 		}
-		return new LoginUser(user.getUserSeq(), user.getPassword(), AuthorityUtils.createAuthorityList(roles.stream().toArray(String[]::new)));
+		return new LoginUser(user.getUserId(), user.getPassword(), AuthorityUtils.createAuthorityList(roles.stream().toArray(String[]::new)));
 //		return new LoginUser(user.getUserSeq(), user.getPassword(), AuthorityUtils.createAuthorityList("ROLE_USER"));
 	}
 

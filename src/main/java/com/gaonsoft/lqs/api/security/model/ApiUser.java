@@ -15,8 +15,8 @@ import lombok.Data;
 public class ApiUser {
 
 	@Id
-	@Column(name="user_seq")
-	private Long userSeq;
+	@Column(name="user_id")
+	private String userId;
 	
 	@Column(name="user_name")
 	private String userName;
