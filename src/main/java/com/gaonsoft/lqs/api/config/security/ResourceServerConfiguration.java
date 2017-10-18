@@ -61,7 +61,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 			.antMatchers("/login").permitAll()
 			.antMatchers("/api/open/**").permitAll()
 			.antMatchers("/api/apiUserRoles/**").permitAll()
-//			.antMatchers("/api/lprs/**").hasRole("ADMIN")
 			.antMatchers("/api/farm/**").hasRole("FARM")
 			.antMatchers("/api/kiosk/**").hasRole("KIOSK")
 			.antMatchers("/api/lpr/**").hasRole("LPR")
