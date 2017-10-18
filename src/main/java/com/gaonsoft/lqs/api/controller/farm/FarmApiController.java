@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gaonsoft.lqs.api.repository.FarmRepository;
 import com.gaonsoft.lqs.api.service.FarmService;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -25,11 +24,8 @@ public class FarmApiController {
 	@Autowired
 	private FarmService farmService; 
 	
-	@Autowired
-	private FarmRepository farmRepository; 
-	
 	@ApiOperation(
-		value = "updatePassword",
+		value = "updateMyinfo",
 		notes = "app 접속 패스워드 변경",
 		httpMethod = "PATCH",
 		produces = "application/json",
@@ -37,25 +33,49 @@ public class FarmApiController {
 		protocols = "http",
 		hidden = false
 	)
-//	@ApiResponses({
-//		@ApiResponse(code = 200, message = "OK"),
-//		@ApiResponse(code = 400, message = "Bad Request"),
-//		@ApiResponse(code = 404, message = "Not Found")
-//	})
 	@ApiImplicitParams({
-		@ApiImplicitParam(name="id", value="App 로그인아이디(farm_seq)", required=true, dataType="long", paramType="path"),
+		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="String", paramType="path"),
 		@ApiImplicitParam(name="body", value="body", required=true, paramType="path", defaultValue="{\"password\": {password}}")
 	})
-	@RequestMapping(value="/{id}/search/password", method=RequestMethod.PATCH)
-	public ResponseEntity<?> updatePassword(
-			@PathVariable long id, 
+	@RequestMapping(value="/farms/{id}/myinfo", method=RequestMethod.PATCH)
+	public ResponseEntity<?> updateMyinfo(
+			@PathVariable String id, 
 			@RequestBody Map<String, Object> body) {
-		return new ResponseEntity<>(farmService.updatePassword(id, body.get("password").toString()), HttpStatus.OK);
+		if(farmService.updatePassword(id, body.get("password").toString())) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> get(@PathVariable long id) {
-		return new ResponseEntity<>(farmRepository.findOne(id), HttpStatus.OK);
+	@ApiOperation(
+		value = "controlGate",
+		notes = "농장 출입차단기 동작요청",
+		httpMethod = "POST",
+		produces = "application/json",
+		consumes = "application/json",
+		protocols = "http",
+		hidden = false
+	)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="String", paramType="path"),
+		@ApiImplicitParam(name="body", value="body", required=true, paramType="path", defaultValue="{\"action\": \"[open/close]\"}")
+	})
+	@RequestMapping(value="/farms/{id}/search/gate", method=RequestMethod.POST)
+	public ResponseEntity<?> controlGate(
+			@PathVariable String id, 
+			@RequestBody Map<String, Object> body) {
+		if(body.containsKey("action") && body.get("action").toString().toUpperCase().equals("OPEN")) {
+			if(farmService.openGate(id)) {
+				return new ResponseEntity<>("open", HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else if(body.containsKey("action") && body.get("action").toString().toUpperCase().equals("CLOSE")) {
+			if(farmService.closeGate(id)) {
+				return new ResponseEntity<>("close", HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			return new ResponseEntity<>("Wrong parameter", HttpStatus.BAD_REQUEST);
+		}
 	}
-	
 }

@@ -6,5 +6,9 @@ public interface FarmService {
 	
 	public Farm findFarmById(long id);
 	
-	public boolean updatePassword(long id, String password);
+	public boolean updatePassword(String id, String password);
+	
+	public boolean closeGate(String id);
+	
+	public boolean openGate(String id);
 }

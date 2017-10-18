@@ -1,4 +1,4 @@
-package com.gaonsoft.lqs.api.model.user;
+package com.gaonsoft.lqs.api.model.config;
 
 import java.io.Serializable;
 
@@ -11,16 +11,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiUserRoleKey implements Serializable {
+public class ConfigKey implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="user_id")
-	private String userId;
+	@Column(name="cfg_group")
+	private String cfgGroup;
 	
-	@Column(name="role_id")
-	private String roleId;
+	@Column(name="cfg_id")
+	private String cfgId;
 }
