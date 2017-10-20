@@ -1,4 +1,4 @@
-package com.gaonsoft.lqs.api.controller.farm;
+package com.gaonsoft.lqs.api.controller.app;
 
 import java.util.Date;
 import java.util.Map;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gaonsoft.lqs.api.common.util.DateUtil;
+import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
 import com.gaonsoft.lqs.api.service.FarmService;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -22,7 +23,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/api/farm")
+@RequestMapping("/api/app")
 public class FarmApiController {
 
 	@Autowired
@@ -38,8 +39,9 @@ public class FarmApiController {
 		hidden = false
 	)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="String", paramType="path"),
-		@ApiImplicitParam(name="body", value="body", required=true, paramType="path", defaultValue="{\"password\": {password}}")
+		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
+		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path"),
+		@ApiImplicitParam(name="body", value="body", required=true, paramType="body", dataType="string", defaultValue="{\"password\":{password}}")
 	})
 	@RequestMapping(value="/farms/{id}/myinfo", method=RequestMethod.PATCH)
 	public ResponseEntity<?> updateMyinfo(
@@ -61,8 +63,9 @@ public class FarmApiController {
 		hidden = false
 	)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="String", paramType="path"),
-		@ApiImplicitParam(name="body", value="body", required=true, paramType="json", defaultValue="{\"action\": \"[open/close]\"}")
+		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
+		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path"),
+		@ApiImplicitParam(name="body", value="body", required=true, paramType="body", dataType="string", defaultValue="{\"action\":{[open/close]}}")
 	})
 	@RequestMapping(value="/farms/{id}/search/gate", method=RequestMethod.POST)
 	public ResponseEntity<?> controlGate(
@@ -90,14 +93,16 @@ public class FarmApiController {
 		produces = "application/json",
 		consumes = "application/json",
 		protocols = "http",
+		response = FarmAccessVehicle.class,
 		hidden = false
 	)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", value = "농장ID(로그인ID)", required = true, dataType = "String", paramType = "path"),
+		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
+		@ApiImplicitParam(name = "id", value = "농장ID(로그인ID)", required = true, dataType = "string", paramType = "path"),
 		@ApiImplicitParam(name = "from", value = "검색조건(시작)", required = false, dataType = "long", paramType = "query"),
 		@ApiImplicitParam(name = "to", value = "검색조건(종료)", required = false, dataType = "long", paramType = "query"),
-		@ApiImplicitParam(name = "page", required = false, dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)"),
-		@ApiImplicitParam(name = "size", required = false, dataType = "integer", paramType = "query", value = "Number of records per page."),
+		@ApiImplicitParam(name = "page", required = false, dataType = "long", paramType = "query", value = "Results page you want to retrieve (0..N)"),
+		@ApiImplicitParam(name = "size", required = false, dataType = "long", paramType = "query", value = "Number of records per page."),
 		@ApiImplicitParam(name = "sort", required = false, dataType = "string", paramType = "query", allowMultiple = true, value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
 	})
 	@RequestMapping(value="/farms/{id}/search/vehicles", method=RequestMethod.GET)
