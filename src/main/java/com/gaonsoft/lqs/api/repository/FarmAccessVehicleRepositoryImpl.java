@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport
 
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
 import com.gaonsoft.lqs.api.model.farm.QFarmAccessVehicle;
-import com.gaonsoft.lqs.api.vo.SearchFarmAccessVehicle;
+import com.gaonsoft.lqs.api.vo.SearchFarmAccessVehicleVo;
 import com.querydsl.jpa.JPQLQuery;
 
 public class FarmAccessVehicleRepositoryImpl extends QueryDslRepositorySupport implements FarmAccessVehicleRepositoryCustom {
@@ -22,7 +22,7 @@ public class FarmAccessVehicleRepositoryImpl extends QueryDslRepositorySupport i
 	}
 
 	@Override
-	public Page<FarmAccessVehicle> findAccessVehicleByFarmSeq(SearchFarmAccessVehicle searchFarmAccessVehicle, Pageable pageable) {
+	public Page<FarmAccessVehicle> findAccessVehicleByFarmSeq(SearchFarmAccessVehicleVo searchFarmAccessVehicle, Pageable pageable) {
 		QFarmAccessVehicle farmAccessVehicle = QFarmAccessVehicle.farmAccessVehicle;
 //		
 		JPQLQuery query = from(farmAccessVehicle);

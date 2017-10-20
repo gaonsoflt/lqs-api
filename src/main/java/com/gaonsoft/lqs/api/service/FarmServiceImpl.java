@@ -15,7 +15,7 @@ import com.gaonsoft.lqs.api.model.user.ApiUser;
 import com.gaonsoft.lqs.api.repository.ApiUserRepository;
 import com.gaonsoft.lqs.api.repository.FarmAccessVehicleRepository;
 import com.gaonsoft.lqs.api.repository.FarmRepository;
-import com.gaonsoft.lqs.api.vo.SearchFarmAccessVehicle;
+import com.gaonsoft.lqs.api.vo.SearchFarmAccessVehicleVo;
 
 /***
  * 
@@ -64,14 +64,14 @@ public class FarmServiceImpl implements FarmService {
 
 	@Override
 	public Page<FarmAccessVehicle> findFarmAccessVehicles(String id, Pageable pageable) {
-		return accessVehicleRepository.findAccessVehicleByFarmSeq(new SearchFarmAccessVehicle(Long.valueOf(id)), pageable);
+		return accessVehicleRepository.findAccessVehicleByFarmSeq(new SearchFarmAccessVehicleVo(Long.valueOf(id)), pageable);
 	}	
 	
 	@Override
 	public Page<FarmAccessVehicle> findFarmAccessVehicles(String id, Date from, Date to, Pageable pageable) {
 //		System.out.println(from);
 //		System.out.println(to);
-		return accessVehicleRepository.findAccessVehicleByFarmSeq(new SearchFarmAccessVehicle(Long.valueOf(id), from, to), pageable);
+		return accessVehicleRepository.findAccessVehicleByFarmSeq(new SearchFarmAccessVehicleVo(Long.valueOf(id), from, to), pageable);
 	}
 	
 	

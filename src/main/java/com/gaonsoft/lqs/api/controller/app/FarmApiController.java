@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gaonsoft.lqs.api.common.util.DateUtil;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
 import com.gaonsoft.lqs.api.service.FarmService;
+import com.gaonsoft.lqs.api.vo.LprControlVo;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/api/app")
@@ -64,25 +66,24 @@ public class FarmApiController {
 	)
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
-		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path"),
-		@ApiImplicitParam(name="body", value="body", required=true, paramType="body", dataType="string", defaultValue="{\"action\":{[open/close]}}")
+		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path")
 	})
 	@RequestMapping(value="/farms/{id}/search/gate", method=RequestMethod.POST)
 	public ResponseEntity<?> controlGate(
 			@PathVariable String id, 
-			@RequestBody Map<String, Object> body) {
-		if(body.containsKey("action") && body.get("action").toString().toUpperCase().equals("OPEN")) {
+			@ApiParam(required = true) @RequestBody LprControlVo body) {
+		if(body.getAction() != null && body.getAction().toUpperCase().equals("OPEN")) {
 			if(farmService.openGate(id)) {
 				return new ResponseEntity<>("open", HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		} else if(body.containsKey("action") && body.get("action").toString().toUpperCase().equals("CLOSE")) {
+		} else if(body.getAction() != null && body.getAction().toUpperCase().equals("CLOSE")) {
 			if(farmService.closeGate(id)) {
 				return new ResponseEntity<>("close", HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		} else {
-			return new ResponseEntity<>("Wrong parameter", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

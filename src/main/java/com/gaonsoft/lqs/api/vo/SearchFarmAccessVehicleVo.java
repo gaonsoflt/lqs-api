@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SearchFarmAccessVehicle {
+public class SearchFarmAccessVehicleVo {
 
 	private long farmSeq;
 	
@@ -15,7 +15,7 @@ public class SearchFarmAccessVehicle {
 	
 	private Date to;
 	
-	public SearchFarmAccessVehicle(long farmSeq) {
+	public SearchFarmAccessVehicleVo(long farmSeq) {
 		this.farmSeq = farmSeq;
 	}
 }
