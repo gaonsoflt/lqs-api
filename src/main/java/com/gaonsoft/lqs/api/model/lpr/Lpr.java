@@ -1,13 +1,9 @@
 package com.gaonsoft.lqs.api.model.lpr;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import lombok.Data;
 
@@ -29,10 +25,6 @@ public class Lpr {
 	@Column(name="loc_seq")
 	private Long locSeq;
 	
-	@Column(name="last_alive_dt")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastAliveDt;
-	
-	@Column(name="is_alive")
-	private int isAlive;
+	@Column(name="description")
+	private String description;
 }
