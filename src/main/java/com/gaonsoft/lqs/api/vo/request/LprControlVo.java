@@ -1,4 +1,4 @@
-package com.gaonsoft.lqs.api.vo;
+package com.gaonsoft.lqs.api.vo.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

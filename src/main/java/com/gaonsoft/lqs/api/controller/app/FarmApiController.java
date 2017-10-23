@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gaonsoft.lqs.api.common.util.DateUtil;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
 import com.gaonsoft.lqs.api.service.FarmService;
-import com.gaonsoft.lqs.api.vo.LprControlVo;
+import com.gaonsoft.lqs.api.vo.request.LprControlVo;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

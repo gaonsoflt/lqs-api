@@ -7,5 +7,5 @@ import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.farm.InlineLpr;
 
 @RepositoryRestResource(excerptProjection = InlineLpr.class, exported= false)
-public interface FarmRepository extends CrudRepository<Farm, Long>{
+public interface FarmRepository extends CrudRepository<Farm, Long>, FarmRepositoryCustom{
 }
