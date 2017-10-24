@@ -8,4 +8,8 @@ import com.gaonsoft.lqs.api.vo.SearchFarmAccessVehicleVo;
 
 public interface FarmAccessVehicleRepositoryCustom {
 	Page<FarmAccessVehicle> findAccessVehicleByFarmSeq(SearchFarmAccessVehicleVo searchFarmAccessVehicle, Pageable pageable);
+	
+	Page<FarmAccessVehicle> findAccessVehicleByFarmSeqAndPeriod(SearchFarmAccessVehicleVo searchFarmAccessVehicle, Pageable pageable);
+	
+	FarmAccessVehicle findAccessVehicleByFarmSeqAndCarNoAndMaxCapDt(Long farmSeq, String carNo);
 }

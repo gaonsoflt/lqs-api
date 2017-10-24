@@ -24,16 +24,39 @@ public class FarmAccessVehicleRepositoryImpl extends QueryDslRepositorySupport i
 	@Override
 	public Page<FarmAccessVehicle> findAccessVehicleByFarmSeq(SearchFarmAccessVehicleVo searchFarmAccessVehicle, Pageable pageable) {
 		QFarmAccessVehicle farmAccessVehicle = QFarmAccessVehicle.farmAccessVehicle;
-//		
-		JPQLQuery query = from(farmAccessVehicle);
+		
+		JPQLQuery<FarmAccessVehicle> query = from(farmAccessVehicle);
+		query.where(farmAccessVehicle.farmSeq.eq(searchFarmAccessVehicle.getFarmSeq()));
+		List<FarmAccessVehicle> result = getQuerydsl().applyPagination(pageable, query).fetch();
+		return new PageImpl<>(result, pageable, query.fetchCount());
+	}
+	
+
+	@Override
+	public Page<FarmAccessVehicle> findAccessVehicleByFarmSeqAndPeriod(
+			SearchFarmAccessVehicleVo searchFarmAccessVehicle, Pageable pageable) {
+		QFarmAccessVehicle farmAccessVehicle = QFarmAccessVehicle.farmAccessVehicle;
+		
+		JPQLQuery<FarmAccessVehicle> query = from(farmAccessVehicle);
 		if(searchFarmAccessVehicle.getFrom() != null || searchFarmAccessVehicle.getTo() != null) {
 			query.where(farmAccessVehicle.farmSeq.eq(searchFarmAccessVehicle.getFarmSeq())
-				.and(farmAccessVehicle.inDt.goe(searchFarmAccessVehicle.getFrom())
-				.and(farmAccessVehicle.inDt.loe(searchFarmAccessVehicle.getTo()))));
-		} else {
-			query.where(farmAccessVehicle.farmSeq.eq(searchFarmAccessVehicle.getFarmSeq()));
+				.and(farmAccessVehicle.capDt.goe(searchFarmAccessVehicle.getFrom())
+				.and(farmAccessVehicle.capDt.loe(searchFarmAccessVehicle.getTo()))));
 		}
 		List<FarmAccessVehicle> result = getQuerydsl().applyPagination(pageable, query).fetch();
 		return new PageImpl<>(result, pageable, query.fetchCount());
 	}
+
+	@Override
+	public FarmAccessVehicle findAccessVehicleByFarmSeqAndCarNoAndMaxCapDt(Long farmSeq, String carNo) {
+		QFarmAccessVehicle farmAccessVehicle = QFarmAccessVehicle.farmAccessVehicle;
+		
+		JPQLQuery<?> query = from(farmAccessVehicle)
+				.where(farmAccessVehicle.farmSeq.eq(farmSeq)
+				.and(farmAccessVehicle.carNo.eq(carNo)))
+				.orderBy(farmAccessVehicle.capDt.desc());
+		FarmAccessVehicle result = (FarmAccessVehicle) query.fetchFirst();
+		return result;
+	}
+
 }

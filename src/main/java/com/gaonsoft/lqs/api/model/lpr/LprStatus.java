@@ -22,7 +22,7 @@ import lombok.Data;
 public class LprStatus {
 
 	@Id
-	@ApiModelProperty(required = true)
+	@ApiModelProperty(required = false, readOnly = true)
 	@Column(name="lpr_seq")
 	private Long lprSeq;
 	

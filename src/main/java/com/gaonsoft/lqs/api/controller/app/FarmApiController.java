@@ -19,12 +19,15 @@ import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
 import com.gaonsoft.lqs.api.service.FarmService;
 import com.gaonsoft.lqs.api.vo.request.LprControlVo;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Authorization;
 
 @RestController
+@Api(authorizations={ @Authorization("ROLE_FARM") }, description="앱(농장)용 api")
 @RequestMapping("/api/app")
 public class FarmApiController {
 
@@ -68,7 +71,7 @@ public class FarmApiController {
 		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
 		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path")
 	})
-	@RequestMapping(value="/farms/{id}/search/gate", method=RequestMethod.POST)
+	@RequestMapping(value="/farms/{id}/gate", method=RequestMethod.POST)
 	public ResponseEntity<?> controlGate(
 			@PathVariable String id, 
 			@ApiParam(required = true) @RequestBody LprControlVo body) {
@@ -106,7 +109,7 @@ public class FarmApiController {
 		@ApiImplicitParam(name = "size", required = false, dataType = "long", paramType = "query", value = "Number of records per page."),
 		@ApiImplicitParam(name = "sort", required = false, dataType = "string", paramType = "query", allowMultiple = true, value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
 	})
-	@RequestMapping(value="/farms/{id}/search/vehicles", method=RequestMethod.GET)
+	@RequestMapping(value="/accessvehicles/search/farm/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> findAccessVehicle(
 			@PathVariable String id,
 			@Param(value="from") String from,

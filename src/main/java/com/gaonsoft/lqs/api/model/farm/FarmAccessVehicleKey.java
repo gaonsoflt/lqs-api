@@ -29,5 +29,5 @@ public class FarmAccessVehicleKey implements Serializable {
 
 	@Column(name="cap_dt")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date captureDt;
+	private Date capDt;
 }

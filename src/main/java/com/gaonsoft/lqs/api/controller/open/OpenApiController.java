@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gaonsoft.lqs.api.service.OpenService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
+@Api(description="Open api")
 @RequestMapping("/api/open")
 public class OpenApiController {
 
