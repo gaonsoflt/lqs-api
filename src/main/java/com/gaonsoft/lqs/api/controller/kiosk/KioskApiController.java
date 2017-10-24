@@ -17,7 +17,7 @@ import com.gaonsoft.lqs.api.model.car.DisfCar;
 import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.system.Address;
 import com.gaonsoft.lqs.api.repository.AddressRepository;
-import com.gaonsoft.lqs.api.service.FacilityService;
+import com.gaonsoft.lqs.api.service.KioskService;
 import com.gaonsoft.lqs.api.vo.SearchDisfCarVo;
 import com.gaonsoft.lqs.api.vo.SearchFarmVo;
 import com.gaonsoft.lqs.api.vo.request.SubmitVo;
@@ -26,13 +26,15 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api/kiosk")
 public class KioskApiController {
 
 	@Autowired
-	private FacilityService facilityService; 
+	private KioskService kioskService; 
 	
 	@Autowired
 	private AddressRepository addressRepository; 
@@ -56,13 +58,13 @@ public class KioskApiController {
 		@ApiImplicitParam(name = "sort", required = false, dataType = "string", paramType = "query", allowMultiple = true, value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
 	})
 	@RequestMapping(value="/disfcars/search/facility/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> findDisfCar(
+	public ResponseEntity<?> findDisfCarByFacility(
 			@PathVariable String id,
 			@Param(value="no") String no,
 			Pageable pageable) {
 		
 		try {
-			return new ResponseEntity<>(facilityService.findDisfCar(new SearchDisfCarVo(Long.valueOf(id), no, new Date()), pageable), HttpStatus.OK);
+			return new ResponseEntity<>(kioskService.findDisfCar(new SearchDisfCarVo(Long.valueOf(id), no, new Date()), pageable), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -88,13 +90,13 @@ public class KioskApiController {
 		@ApiImplicitParam(name = "sort", required = false, dataType = "string", paramType = "query", allowMultiple = true, value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
 	})
 	@RequestMapping(value="/farms/search/location", method=RequestMethod.GET)
-	public ResponseEntity<?> findFarm(
+	public ResponseEntity<?> findFarmByLocation(
 			@Param(value="sigungu") String sigungu,
 			@Param(value="bcode") String bcode,
 			Pageable pageable) {
 		
 		try {
-			return new ResponseEntity<>(facilityService.findFarm(new SearchFarmVo(sigungu, bcode, null), pageable), HttpStatus.OK);
+			return new ResponseEntity<>(kioskService.findFarm(new SearchFarmVo(sigungu, bcode, null), pageable), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -161,35 +163,29 @@ public class KioskApiController {
 		}
 	}
 	
-//	@ApiOperation(
-//		value = "submit",
-//		notes = "운전자인증 및 방문농가지정",
-//		httpMethod = "POST",
-//		produces = "application/json",
-//		consumes = "application/json",
-//		protocols = "http",
-//		hidden = false
-//	)
-//	@ApiImplicitParams({
-//		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
-//		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path")
-//	})
-//	@RequestMapping(value="/submit", method=RequestMethod.POST)
-//	public ResponseEntity<?> controlGate(
-//			@PathVariable String id, 
-//			@ApiParam(required = true) @RequestBody SubmitVo body) {
-//		if(body.getAction() != null && body.getAction().toUpperCase().equals("OPEN")) {
-//			if(farmService.openGate(id)) {
-//				return new ResponseEntity<>("open", HttpStatus.OK);
-//			}
-//			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//		} else if(body.getAction() != null && body.getAction().toUpperCase().equals("CLOSE")) {
-//			if(farmService.closeGate(id)) {
-//				return new ResponseEntity<>("close", HttpStatus.OK);
-//			}
-//			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//		} else {
-//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//		}
-//	}
+	@ApiOperation(
+		value = "saveForm",
+		notes = "운전자인증 및 방문농가지정",
+		httpMethod = "POST",
+		produces = "application/json",
+		consumes = "application/json",
+		protocols = "http",
+		hidden = false
+	)
+	@ApiResponses({
+		@ApiResponse(code=500, message="Not matched fingerprint or internal server error")
+	})
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
+	})
+	@RequestMapping(value="/form", method=RequestMethod.POST)
+	public ResponseEntity<?> saveForm(@ApiParam(required = true) @RequestBody SubmitVo body) {
+		try {
+			kioskService.saveForm(body);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

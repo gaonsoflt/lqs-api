@@ -11,9 +11,10 @@ import com.gaonsoft.lqs.api.repository.DisfCarRepository;
 import com.gaonsoft.lqs.api.repository.FarmRepository;
 import com.gaonsoft.lqs.api.vo.SearchDisfCarVo;
 import com.gaonsoft.lqs.api.vo.SearchFarmVo;
+import com.gaonsoft.lqs.api.vo.request.SubmitVo;
 
 @Service
-public class FacilityServiceImpl implements FacilityService {
+public class KioskServiceImpl implements KioskService {
 
 	@Autowired
 	private DisfCarRepository disfCarRepository;
@@ -37,5 +38,12 @@ public class FacilityServiceImpl implements FacilityService {
 			return farmRepository.findFarmBySigunguCodeAndRoadnameCode(searchVo, pageable);
 		}
 		return farmRepository.findFarmBySigunguCode(searchVo, pageable);
+	}
+
+	@Override
+	public void saveForm(SubmitVo vo) throws Exception {
+		// TODO: submit form save or auth using finger temple, alert visitinfo to farm
+		
+		throw new Exception("Not matched fingerprint.");
 	}
 }
