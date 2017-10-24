@@ -5,6 +5,7 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
 import com.gaonsoft.lqs.api.model.car.Car;
+import com.gaonsoft.lqs.api.model.car.Driver;
 import com.gaonsoft.lqs.api.model.facility.Facility;
 import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.lpr.Lpr;
@@ -18,5 +19,6 @@ public class RepositoryConfig extends RepositoryRestConfigurerAdapter  {
 		config.exposeIdsFor(Facility.class);
 		config.exposeIdsFor(Lpr.class);
 		config.exposeIdsFor(Car.class);
+		config.exposeIdsFor(Driver.class);
 	}
 }

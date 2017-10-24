@@ -13,7 +13,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.gaonsoft.lqs.api.model.car.Car;
-import com.gaonsoft.lqs.api.model.car.DisfCar;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -40,11 +39,6 @@ public class FarmAccessVehicle {
 	@ManyToOne
 	@JoinColumn(name="car_no", referencedColumnName="car_no", insertable=false, updatable=false, nullable=true)
 	private Car carInfo;
-	
-	@ApiModelProperty(readOnly = true)
-	@ManyToOne
-	@JoinColumn(name="car_no", referencedColumnName="car_no", insertable=false, updatable=false, nullable=true)
-	private DisfCar disfInfo;
 	
 	@Id
 	@Column(name="cap_dt")

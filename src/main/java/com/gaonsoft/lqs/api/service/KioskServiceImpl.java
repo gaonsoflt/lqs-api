@@ -1,17 +1,24 @@
 package com.gaonsoft.lqs.api.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gaonsoft.lqs.api.model.car.DisfCar;
+import com.gaonsoft.lqs.api.model.car.Driver;
 import com.gaonsoft.lqs.api.model.farm.Farm;
+import com.gaonsoft.lqs.api.model.farm.FarmVisitPlan;
 import com.gaonsoft.lqs.api.repository.DisfCarRepository;
+import com.gaonsoft.lqs.api.repository.DriverRepository;
 import com.gaonsoft.lqs.api.repository.FarmRepository;
+import com.gaonsoft.lqs.api.repository.FarmVisitPlanRepository;
 import com.gaonsoft.lqs.api.vo.SearchDisfCarVo;
 import com.gaonsoft.lqs.api.vo.SearchFarmVo;
-import com.gaonsoft.lqs.api.vo.request.SubmitVo;
+import com.gaonsoft.lqs.api.vo.request.FarmVisitPlanVo;
+import com.gaonsoft.lqs.api.vo.request.FpAuthVo;
 
 @Service
 public class KioskServiceImpl implements KioskService {
@@ -21,6 +28,12 @@ public class KioskServiceImpl implements KioskService {
 	
 	@Autowired
 	private FarmRepository farmRepository;
+	
+	@Autowired
+	private DriverRepository driverRepository;
+	
+	@Autowired
+	private FarmVisitPlanRepository farmVisitPlanRepository;
 	
 	@Override
 	public Page<DisfCar> findDisfCar(SearchDisfCarVo searchVo, Pageable pageable) throws Exception {
@@ -41,9 +54,18 @@ public class KioskServiceImpl implements KioskService {
 	}
 
 	@Override
-	public void saveForm(SubmitVo vo) throws Exception {
-		// TODO: submit form save or auth using finger temple, alert visitinfo to farm
-		
-		throw new Exception("Not matched fingerprint.");
+	public void saveFarmVisitPlan(FarmVisitPlanVo vo) throws Exception {
+		Date date = new Date();
+		for (long farmSeq : vo.getFarmSeq()) {
+			FarmVisitPlan fvp = new FarmVisitPlan(farmSeq, vo.getCarNo(), date, vo.getDriverSeq());
+			farmVisitPlanRepository.save(fvp);
+		}
+	}
+
+	@Override
+	public Driver loginDriver(FpAuthVo vo) throws Exception {
+		driverRepository.findByFingerprint(vo.getPfTemplete());
+		// TODO: confirm fp
+		return new Driver();
 	}
 }

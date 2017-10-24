@@ -3,6 +3,7 @@ package com.gaonsoft.lqs.api.controller.kiosk;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -14,13 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gaonsoft.lqs.api.model.car.DisfCar;
+import com.gaonsoft.lqs.api.model.car.Driver;
 import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.system.Address;
 import com.gaonsoft.lqs.api.repository.AddressRepository;
 import com.gaonsoft.lqs.api.service.KioskService;
 import com.gaonsoft.lqs.api.vo.SearchDisfCarVo;
 import com.gaonsoft.lqs.api.vo.SearchFarmVo;
-import com.gaonsoft.lqs.api.vo.request.SubmitVo;
+import com.gaonsoft.lqs.api.vo.request.FpAuthVo;
+import com.gaonsoft.lqs.api.vo.request.FarmVisitPlanVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -41,6 +44,36 @@ public class KioskApiController {
 	
 	@Autowired
 	private AddressRepository addressRepository; 
+	
+	@ApiOperation(
+			value = "loginDriver",
+			notes = "운전자 신원 확인",
+			httpMethod = "POST",
+			produces = "application/json",
+			consumes = "application/json",
+			protocols = "http",
+			response = Driver.class,
+			hidden = false
+		)
+	@ApiResponses({
+		@ApiResponse(code=500, message="Not matched fingerprint or internal server error")
+	})
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
+	})
+	@RequestMapping(value="/drivers/login", method=RequestMethod.POST)
+	public ResponseEntity<?> loginDriver(@ApiParam(required = true) @RequestBody FpAuthVo body) {
+		try {
+			Driver driver = kioskService.loginDriver(body);
+			if(driver != null && driver.getDriverSeq() != null) {
+				return new ResponseEntity<>(driver, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 	@ApiOperation(
 		value = "findDisfCarByFacility",
@@ -67,7 +100,11 @@ public class KioskApiController {
 			Pageable pageable) {
 		
 		try {
-			return new ResponseEntity<>(kioskService.findDisfCar(new SearchDisfCarVo(Long.valueOf(id), no, new Date()), pageable), HttpStatus.OK);
+			Page<DisfCar> result = kioskService.findDisfCar(new SearchDisfCarVo(Long.valueOf(id), no, new Date()), pageable);
+			if(result.getTotalElements() > 0) {
+				return new ResponseEntity<>(result, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -167,24 +204,21 @@ public class KioskApiController {
 	}
 	
 	@ApiOperation(
-		value = "saveForm",
-		notes = "운전자인증 및 방문농가지정",
+		value = "saveFarmVisitPlan",
+		notes = "방문예정농가 저장",
 		httpMethod = "POST",
 		produces = "application/json",
 		consumes = "application/json",
 		protocols = "http",
 		hidden = false
 	)
-	@ApiResponses({
-		@ApiResponse(code=500, message="Not matched fingerprint or internal server error")
-	})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
 	})
-	@RequestMapping(value="/form", method=RequestMethod.POST)
-	public ResponseEntity<?> saveForm(@ApiParam(required = true) @RequestBody SubmitVo body) {
+	@RequestMapping(value="/farmvisitplans", method=RequestMethod.POST)
+	public ResponseEntity<?> saveFarmVisitPlan(@ApiParam(required = true) @RequestBody FarmVisitPlanVo body) {
 		try {
-			kioskService.saveForm(body);
+			kioskService.saveFarmVisitPlan(body);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
