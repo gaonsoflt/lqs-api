@@ -9,9 +9,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 
-import com.gaonsoft.lqs.api.model.SearchDisfCarVo;
 import com.gaonsoft.lqs.api.model.car.DisfCar;
 import com.gaonsoft.lqs.api.model.car.QDisfCar;
+import com.gaonsoft.lqs.api.model.request.SearchDisfCarVo;
 import com.querydsl.jpa.JPQLQuery;
 
 public class DisfCarRepositoryImpl extends QueryDslRepositorySupport implements DisfCarRepositoryCustom {

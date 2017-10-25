@@ -1,6 +1,9 @@
 package com.gaonsoft.lqs.api.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gaonsoft.lqs.api.common.PwdEncryptor;
-import com.gaonsoft.lqs.api.model.SearchFarmAccessVehicleVo;
+import com.gaonsoft.lqs.api.common.util.DateUtil;
+import com.gaonsoft.lqs.api.model.FarmAccessVehicleSummary;
 import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
+import com.gaonsoft.lqs.api.model.request.SearchFarmAccessVehicleVo;
 import com.gaonsoft.lqs.api.model.user.ApiUser;
 import com.gaonsoft.lqs.api.repository.ApiUserRepository;
 import com.gaonsoft.lqs.api.repository.FarmAccessVehicleRepository;
@@ -63,18 +68,26 @@ public class FarmServiceImpl implements FarmService {
 	}
 
 	@Override
-	public Page<FarmAccessVehicle> findFarmAccessVehicles(String id, Pageable pageable) {
+	public Page<FarmAccessVehicle> findFarmAccessVehicles(String id, Pageable pageable) throws Exception {
 		return accessVehicleRepository.findAccessVehicleByFarmSeq(new SearchFarmAccessVehicleVo(Long.valueOf(id)), pageable);
 	}	
 	
 	@Override
-	public Page<FarmAccessVehicle> findFarmAccessVehicles(String id, Date from, Date to, Pageable pageable) {
+	public Page<FarmAccessVehicle> findFarmAccessVehicles(String id, Date from, Date to, Pageable pageable) throws Exception {
 		return accessVehicleRepository.findAccessVehicleByFarmSeqAndPeriod(new SearchFarmAccessVehicleVo(Long.valueOf(id), from, to), pageable);
 	}
 	
 	@Override
-	public Page<FarmAccessVehicle> findFarmAccessVehicles2(Pageable pageable) {
-		return null;
+	public FarmAccessVehicleSummary findFarmAccessVehiclesSummary(String id, Date from, Date to) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		List<FarmAccessVehicle> result = accessVehicleRepository
+			.findAccessVehicleByFarmSeqAndCarNoAndVisitPlanDtOrCapDt(
+					new SearchFarmAccessVehicleVo(Long.valueOf(id)
+							, sdf.parse(sdf.format(from))
+							, DateUtil.addDateFieldFromDate(1, sdf.parse(sdf.format(to))))
+					);
+		
+		return new FarmAccessVehicleSummary(result);
 	}
-	
 }

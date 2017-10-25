@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gaonsoft.lqs.api.common.util.DateUtil;
+import com.gaonsoft.lqs.api.model.FarmAccessVehicleSummary;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
 import com.gaonsoft.lqs.api.model.request.LprControlVo;
 import com.gaonsoft.lqs.api.service.FarmService;
@@ -113,7 +114,7 @@ public class FarmApiController {
 	public ResponseEntity<?> findAccessVehicle(
 			@PathVariable String id,
 			@Param(value="from") String from,
-			@Param(value="to")String to,
+			@Param(value="to") String to,
 			Pageable pageable) {
 		
 		if(from != null && to != null) {
@@ -123,16 +124,61 @@ public class FarmApiController {
 				_from = DateUtil.calendarToDate(Long.valueOf(from));
 				_to = DateUtil.calendarToDate(Long.valueOf(to));
 			} catch(Exception e) {
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
 			}
-			return new ResponseEntity<>(farmService.findFarmAccessVehicles(id, _from, _to, pageable), HttpStatus.OK);
+			try {
+				return new ResponseEntity<>(farmService.findFarmAccessVehicles(id, _from, _to, pageable), HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		} else {
-			return new ResponseEntity<>(farmService.findFarmAccessVehicles(id, pageable), HttpStatus.OK);
+			try {
+				return new ResponseEntity<>(farmService.findFarmAccessVehicles(id, pageable), HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
 	}
 	
-	@RequestMapping(value="/test", method=RequestMethod.GET)
-	public ResponseEntity<?> test(Pageable pageable) {
-		return new ResponseEntity<>(farmService.findFarmAccessVehicles2(pageable), HttpStatus.OK);
+	@ApiOperation(
+		value = "findAccessVehicleSummary",
+		notes = "농장 출입내역요약 조회 (from/to가 없을 경우 당일만 조회)",
+		httpMethod = "GET",
+		produces = "application/json",
+		consumes = "application/json",
+		protocols = "http",
+		response = FarmAccessVehicleSummary.class,
+		hidden = false
+	)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
+		@ApiImplicitParam(name = "id", value = "농장ID(로그인ID)", required = true, dataType = "string", paramType = "path"),
+		@ApiImplicitParam(name = "from", value = "검색조건(시작)", required = false, dataType = "long", paramType = "query"),
+		@ApiImplicitParam(name = "to", value = "검색조건(종료)", required = false, dataType = "long", paramType = "query")
+	})
+	@RequestMapping(value="/accessvehicles-summary/search/farm/{id}", method=RequestMethod.GET)
+	public ResponseEntity<?> findAccessVehicleSummary (
+			@PathVariable String id,
+			@Param(value="from") String from,
+			@Param(value="to") String to) {
+		
+		try {
+			if(from != null && to != null) {
+				Date _from;
+				Date _to;
+				_from = DateUtil.calendarToDate(Long.valueOf(from));
+				_to = DateUtil.calendarToDate(Long.valueOf(to));
+				return new ResponseEntity<>(farmService.findFarmAccessVehiclesSummary(id, _from, _to), HttpStatus.OK);
+			}
+			Date now = new Date();
+			return new ResponseEntity<>(farmService.findFarmAccessVehiclesSummary(id, now, now), HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch(NumberFormatException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

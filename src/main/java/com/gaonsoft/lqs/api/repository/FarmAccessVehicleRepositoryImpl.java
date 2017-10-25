@@ -10,9 +10,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 
-import com.gaonsoft.lqs.api.model.SearchFarmAccessVehicleVo;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
 import com.gaonsoft.lqs.api.model.farm.QFarmAccessVehicle;
+import com.gaonsoft.lqs.api.model.request.SearchFarmAccessVehicleVo;
 import com.querydsl.jpa.JPQLQuery;
 
 public class FarmAccessVehicleRepositoryImpl extends QueryDslRepositorySupport implements FarmAccessVehicleRepositoryCustom {
@@ -74,4 +74,23 @@ public class FarmAccessVehicleRepositoryImpl extends QueryDslRepositorySupport i
 		return result;
 	}
 
+	@Override
+	public List<FarmAccessVehicle> findAccessVehicleByFarmSeqAndCarNoAndVisitPlanDtOrCapDt(
+			SearchFarmAccessVehicleVo searchFarmAccessVehicle) {
+		
+		QFarmAccessVehicle farmAccessVehicle = QFarmAccessVehicle.farmAccessVehicle;
+		
+		JPQLQuery<FarmAccessVehicle> query = from(farmAccessVehicle)
+				.where(farmAccessVehicle.farmSeq.eq(searchFarmAccessVehicle.getFarmSeq())
+						.and(farmAccessVehicle.visitPlanDt.goe(searchFarmAccessVehicle.getFrom())
+								.and(farmAccessVehicle.visitPlanDt.lt(searchFarmAccessVehicle.getTo()))
+						).or(farmAccessVehicle.capDt.goe(searchFarmAccessVehicle.getFrom())
+								.and(farmAccessVehicle.capDt.lt(searchFarmAccessVehicle.getTo()))
+						)
+				).orderBy(farmAccessVehicle.capDt.asc())
+				.orderBy(farmAccessVehicle.visitPlanDt.asc());
+		
+		List<FarmAccessVehicle> result = query.fetch();
+		return result;
+	}
 }

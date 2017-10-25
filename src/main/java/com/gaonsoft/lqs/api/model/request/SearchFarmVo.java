@@ -1,4 +1,4 @@
-package com.gaonsoft.lqs.api.model;
+package com.gaonsoft.lqs.api.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

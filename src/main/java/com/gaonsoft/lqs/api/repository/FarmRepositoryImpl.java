@@ -9,12 +9,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 
-import com.gaonsoft.lqs.api.model.SearchFarmVo;
 import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.farm.QFarm;
-import com.gaonsoft.lqs.api.model.system.Address;
+import com.gaonsoft.lqs.api.model.request.SearchFarmVo;
 import com.gaonsoft.lqs.api.model.system.QAddress;
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 
 public class FarmRepositoryImpl extends QueryDslRepositorySupport implements FarmRepositoryCustom {
@@ -29,7 +27,7 @@ public class FarmRepositoryImpl extends QueryDslRepositorySupport implements Far
 		QFarm farm = QFarm.farm;
 		QAddress address = QAddress.address;
 		
-		JPQLQuery query = from(farm);
+		JPQLQuery<Farm> query = from(farm);
 		if(searchVo.getSigunguCode() != null) {
 			query.innerJoin(farm.address, address)
 			.where(address.sigunguCode.eq(searchVo.getSigunguCode()));
@@ -44,7 +42,7 @@ public class FarmRepositoryImpl extends QueryDslRepositorySupport implements Far
 		QFarm farm = QFarm.farm;
 		QAddress address = QAddress.address;
 		
-		JPQLQuery query = from(farm);
+		JPQLQuery<Farm> query = from(farm);
 		if(searchVo.getSigunguCode() != null && searchVo.getBcode() != null) {
 			query.innerJoin(farm.address, address)
 			.where(address.sigunguCode.eq(searchVo.getSigunguCode())
@@ -61,7 +59,7 @@ public class FarmRepositoryImpl extends QueryDslRepositorySupport implements Far
 		QFarm farm = QFarm.farm;
 		QAddress address = QAddress.address;
 		
-		JPQLQuery query = from(farm);
+		JPQLQuery<Farm> query = from(farm);
 		if(searchVo.getSigunguCode() != null && searchVo.getRoadnameCode() != null) {
 			query.innerJoin(farm.address, address)
 			.where(address.sigunguCode.eq(searchVo.getSigunguCode())
