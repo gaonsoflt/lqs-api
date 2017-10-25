@@ -9,9 +9,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 
+import com.gaonsoft.lqs.api.model.SearchFarmAccessVehicleVo;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
 import com.gaonsoft.lqs.api.model.farm.QFarmAccessVehicle;
-import com.gaonsoft.lqs.api.vo.SearchFarmAccessVehicleVo;
 import com.querydsl.jpa.JPQLQuery;
 
 public class FarmAccessVehicleRepositoryImpl extends QueryDslRepositorySupport implements FarmAccessVehicleRepositoryCustom {

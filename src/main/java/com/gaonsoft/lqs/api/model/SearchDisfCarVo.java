@@ -1,4 +1,4 @@
-package com.gaonsoft.lqs.api.vo;
+package com.gaonsoft.lqs.api.model;
 
 import java.util.Date;
 

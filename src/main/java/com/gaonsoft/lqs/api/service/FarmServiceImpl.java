@@ -9,13 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gaonsoft.lqs.api.common.PwdEncryptor;
+import com.gaonsoft.lqs.api.model.SearchFarmAccessVehicleVo;
 import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
 import com.gaonsoft.lqs.api.model.user.ApiUser;
 import com.gaonsoft.lqs.api.repository.ApiUserRepository;
 import com.gaonsoft.lqs.api.repository.FarmAccessVehicleRepository;
 import com.gaonsoft.lqs.api.repository.FarmRepository;
-import com.gaonsoft.lqs.api.vo.SearchFarmAccessVehicleVo;
 
 /***
  * 
@@ -72,5 +72,8 @@ public class FarmServiceImpl implements FarmService {
 		return accessVehicleRepository.findAccessVehicleByFarmSeqAndPeriod(new SearchFarmAccessVehicleVo(Long.valueOf(id), from, to), pageable);
 	}
 	
+	public Page<FarmAccessVehicle> findFarmAccessVehicles2(String id, Date from, Date to, Pageable pageable) {
+		return null;
+	}
 	
 }

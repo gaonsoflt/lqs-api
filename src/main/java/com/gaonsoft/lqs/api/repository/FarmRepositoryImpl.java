@@ -9,11 +9,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 
+import com.gaonsoft.lqs.api.model.SearchFarmVo;
 import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.farm.QFarm;
 import com.gaonsoft.lqs.api.model.system.Address;
 import com.gaonsoft.lqs.api.model.system.QAddress;
-import com.gaonsoft.lqs.api.vo.SearchFarmVo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 

@@ -1,7 +1,7 @@
 package com.gaonsoft.lqs.api.service;
 
 import com.gaonsoft.lqs.api.model.lpr.LprStatus;
-import com.gaonsoft.lqs.api.vo.request.AccessVehicleVo;
+import com.gaonsoft.lqs.api.model.request.AccessVehicleVo;
 
 public interface LprService {
 	public LprStatus saveLprStatus(LprStatus lprStatus) throws Exception;

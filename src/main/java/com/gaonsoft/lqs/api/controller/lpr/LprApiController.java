@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gaonsoft.lqs.api.model.lpr.LprStatus;
+import com.gaonsoft.lqs.api.model.request.AccessVehicleVo;
 import com.gaonsoft.lqs.api.service.LprService;
-import com.gaonsoft.lqs.api.vo.request.AccessVehicleVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

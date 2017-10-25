@@ -10,12 +10,12 @@ import com.gaonsoft.lqs.api.model.config.ConfigKey;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
 import com.gaonsoft.lqs.api.model.lpr.Lpr;
 import com.gaonsoft.lqs.api.model.lpr.LprStatus;
+import com.gaonsoft.lqs.api.model.request.AccessVehicleVo;
 import com.gaonsoft.lqs.api.repository.ConfigRepository;
 import com.gaonsoft.lqs.api.repository.DisfCarRepository;
 import com.gaonsoft.lqs.api.repository.FarmAccessVehicleRepository;
 import com.gaonsoft.lqs.api.repository.LprRepository;
 import com.gaonsoft.lqs.api.repository.LprStatusRepository;
-import com.gaonsoft.lqs.api.vo.request.AccessVehicleVo;
 
 @Service
 public class LprServiceImpl implements LprService {
