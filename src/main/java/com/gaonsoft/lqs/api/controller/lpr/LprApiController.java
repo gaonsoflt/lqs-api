@@ -51,10 +51,10 @@ public class LprApiController {
 			return new ResponseEntity<>(lprService.saveLprStatus(body), HttpStatus.OK);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(nfe.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -65,7 +65,6 @@ public class LprApiController {
 			produces = "application/json",
 			consumes = "application/json",
 			protocols = "http",
-			response = AccessVehicleVo.class,
 			hidden = false
 			)
 	@ApiImplicitParams({
@@ -78,13 +77,14 @@ public class LprApiController {
 			@ApiParam(required=true) @RequestBody AccessVehicleVo body) {
 		try {
 			body.setLprSeq(Long.valueOf(id));
-			return new ResponseEntity<>(lprService.saveAccessVehicle(body), HttpStatus.OK);
+			lprService.saveAccessVehicle(body);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(nfe.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -95,7 +95,6 @@ public class LprApiController {
 			produces = "application/json",
 			consumes = "application/json",
 			protocols = "http",
-			response = AccessVehicleVo.class,
 			hidden = false
 			)
 	@ApiImplicitParams({
@@ -108,13 +107,14 @@ public class LprApiController {
 			@ApiParam(required=true) @RequestBody AccessVehicleVo body) {
 		try {
 			body.setLprSeq(Long.valueOf(id));
-			return new ResponseEntity<>(lprService.updateAccessVehicle(body), HttpStatus.OK);
+			lprService.updateAccessVehicle(body);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(nfe.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

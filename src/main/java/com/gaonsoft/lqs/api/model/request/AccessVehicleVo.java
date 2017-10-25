@@ -16,6 +16,9 @@ public class AccessVehicleVo {
 	@ApiModelProperty(hidden = true)
 	private Long lprSeq;
 	
+	@ApiModelProperty(hidden = true)
+	private Long carDisfSeq;
+	
 	@ApiModelProperty(readOnly = true, notes = "인식기 위치")
 	private Long locSeq;
 	
@@ -39,6 +42,7 @@ public class AccessVehicleVo {
 	
 	public AccessVehicleVo(FarmAccessVehicle vo) {
 		this.carNo = vo.getCarNo();
+		this.locType = "F";
 		this.locSeq = vo.getFarmSeq();
 		this.capDt = vo.getCapDt();
 		this.inDt = vo.getInDt();
@@ -46,7 +50,9 @@ public class AccessVehicleVo {
 	}
 	
 	public AccessVehicleVo(DisfCar vo) {
+		this.carDisfSeq = vo.getCarDisfSeq();
 		this.carNo = vo.getCarNo();
+		this.locType = "L";
 		this.locSeq = vo.getFacilitySeq();
 		this.capDt = vo.getDisfDt();
 		this.admitDt = vo.getAdmitDt();

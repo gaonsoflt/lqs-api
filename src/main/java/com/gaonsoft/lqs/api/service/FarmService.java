@@ -16,6 +16,8 @@ public interface FarmService {
 	
 	public Page<FarmAccessVehicle> findFarmAccessVehicles(String id, Date from, Date to, Pageable pageable);
 	
+	public Page<FarmAccessVehicle> findFarmAccessVehicles2(Pageable pageable);
+	
 	public boolean updatePassword(String id, String password);
 	
 	public boolean closeGate(String id);

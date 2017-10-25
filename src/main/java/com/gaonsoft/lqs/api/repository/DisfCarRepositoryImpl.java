@@ -24,7 +24,7 @@ public class DisfCarRepositoryImpl extends QueryDslRepositorySupport implements 
 	@Override
 	public Page<DisfCar> findDisfCarsByFacilitySeqAndCarNoAndBeforeAdminDt(SearchDisfCarVo searchVo, Pageable pageable) {
 		QDisfCar disfCar = QDisfCar.disfCar;
-		JPQLQuery query = from(disfCar);;
+		JPQLQuery<DisfCar> query = from(disfCar);;
 		if(searchVo.getCarNo() != null) {
 			query.where(disfCar.facilitySeq.eq(searchVo.getFacilitySeq())
 					.and(disfCar.carNo.endsWith(searchVo.getCarNo())
@@ -40,7 +40,7 @@ public class DisfCarRepositoryImpl extends QueryDslRepositorySupport implements 
 	@Override
 	public Page<DisfCar> findDisfCarsByFacilitySeqAndCarNo(SearchDisfCarVo searchVo, Pageable pageable) {
 		QDisfCar disfCar = QDisfCar.disfCar;
-		JPQLQuery query = from(disfCar);;
+		JPQLQuery<DisfCar> query = from(disfCar);;
 		if(searchVo.getCarNo() != null) {
 			query.where(disfCar.facilitySeq.eq(searchVo.getFacilitySeq())
 					.and(disfCar.carNo.endsWith(searchVo.getCarNo())));

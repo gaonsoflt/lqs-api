@@ -1,5 +1,7 @@
 package com.gaonsoft.lqs.api.repository;
 
+import java.util.Date;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,4 +14,6 @@ public interface FarmAccessVehicleRepositoryCustom {
 	Page<FarmAccessVehicle> findAccessVehicleByFarmSeqAndPeriod(SearchFarmAccessVehicleVo searchFarmAccessVehicle, Pageable pageable);
 	
 	FarmAccessVehicle findAccessVehicleByFarmSeqAndCarNoAndMaxCapDt(Long farmSeq, String carNo);
+	
+	FarmAccessVehicle findAccessVehicleByFarmSeqAndCarNoAndVisitPlanDt(Long farmSeq, String carNo, Date visitPlanDt);
 }

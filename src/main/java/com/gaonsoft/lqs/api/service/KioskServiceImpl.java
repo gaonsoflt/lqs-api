@@ -12,13 +12,13 @@ import com.gaonsoft.lqs.api.model.SearchFarmVo;
 import com.gaonsoft.lqs.api.model.car.DisfCar;
 import com.gaonsoft.lqs.api.model.car.Driver;
 import com.gaonsoft.lqs.api.model.farm.Farm;
-import com.gaonsoft.lqs.api.model.farm.FarmVisitPlan;
+import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
 import com.gaonsoft.lqs.api.model.request.FarmVisitPlanVo;
 import com.gaonsoft.lqs.api.model.request.FpAuthVo;
 import com.gaonsoft.lqs.api.repository.DisfCarRepository;
 import com.gaonsoft.lqs.api.repository.DriverRepository;
+import com.gaonsoft.lqs.api.repository.FarmAccessVehicleRepository;
 import com.gaonsoft.lqs.api.repository.FarmRepository;
-import com.gaonsoft.lqs.api.repository.FarmVisitPlanRepository;
 
 @Service
 public class KioskServiceImpl implements KioskService {
@@ -33,7 +33,7 @@ public class KioskServiceImpl implements KioskService {
 	private DriverRepository driverRepository;
 	
 	@Autowired
-	private FarmVisitPlanRepository farmVisitPlanRepository;
+	private FarmAccessVehicleRepository farmAccessVehicleRepository;
 	
 	@Override
 	public Page<DisfCar> findDisfCar(SearchDisfCarVo searchVo, Pageable pageable) throws Exception {
@@ -57,8 +57,13 @@ public class KioskServiceImpl implements KioskService {
 	public void saveFarmVisitPlan(FarmVisitPlanVo vo) throws Exception {
 		Date date = new Date();
 		for (long farmSeq : vo.getFarmSeq()) {
-			FarmVisitPlan fvp = new FarmVisitPlan(farmSeq, vo.getCarNo(), date, vo.getDriverSeq());
-			farmVisitPlanRepository.save(fvp);
+			FarmAccessVehicle fav = new FarmAccessVehicle();
+			fav.setFarmSeq(farmSeq);
+			fav.setCarNo(vo.getCarNo());
+			fav.setDriverSeq(vo.getDriverSeq());
+			fav.setCarDisfSeq(vo.getCarDisfSeq());
+			fav.setVisitPlanDt(date);
+			farmAccessVehicleRepository.save(fav);
 		}
 	}
 

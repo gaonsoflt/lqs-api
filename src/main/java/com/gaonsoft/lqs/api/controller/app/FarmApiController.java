@@ -130,4 +130,9 @@ public class FarmApiController {
 			return new ResponseEntity<>(farmService.findFarmAccessVehicles(id, pageable), HttpStatus.OK);
 		}
 	}
+	
+	@RequestMapping(value="/test", method=RequestMethod.GET)
+	public ResponseEntity<?> test(Pageable pageable) {
+		return new ResponseEntity<>(farmService.findFarmAccessVehicles2(pageable), HttpStatus.OK);
+	}
 }

@@ -1,5 +1,6 @@
 package com.gaonsoft.lqs.api.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -51,11 +52,25 @@ public class FarmAccessVehicleRepositoryImpl extends QueryDslRepositorySupport i
 	public FarmAccessVehicle findAccessVehicleByFarmSeqAndCarNoAndMaxCapDt(Long farmSeq, String carNo) {
 		QFarmAccessVehicle farmAccessVehicle = QFarmAccessVehicle.farmAccessVehicle;
 		
-		JPQLQuery<?> query = from(farmAccessVehicle)
+		JPQLQuery<FarmAccessVehicle> query = from(farmAccessVehicle)
 				.where(farmAccessVehicle.farmSeq.eq(farmSeq)
 				.and(farmAccessVehicle.carNo.eq(carNo)))
 				.orderBy(farmAccessVehicle.capDt.desc());
-		FarmAccessVehicle result = (FarmAccessVehicle) query.fetchFirst();
+		FarmAccessVehicle result = query.fetchFirst();
+		return result;
+	}
+
+	@Override
+	public FarmAccessVehicle findAccessVehicleByFarmSeqAndCarNoAndVisitPlanDt(Long farmSeq, String carNo, Date visitPlanDt) {
+		QFarmAccessVehicle farmAccessVehicle = QFarmAccessVehicle.farmAccessVehicle;
+		
+		// visitPlanDt 중에 Seq 높은거 하나만 리턴 = 가장 최근 방문 요청 기록 
+		JPQLQuery<FarmAccessVehicle> query = from(farmAccessVehicle)
+				.where(farmAccessVehicle.farmSeq.eq(farmSeq)
+				.and(farmAccessVehicle.carNo.eq(carNo))
+				.and(farmAccessVehicle.visitPlanDt.eq(visitPlanDt)))
+				.orderBy(farmAccessVehicle.seq.desc());
+		FarmAccessVehicle result = query.fetchFirst();
 		return result;
 	}
 

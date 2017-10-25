@@ -72,7 +72,8 @@ public class FarmServiceImpl implements FarmService {
 		return accessVehicleRepository.findAccessVehicleByFarmSeqAndPeriod(new SearchFarmAccessVehicleVo(Long.valueOf(id), from, to), pageable);
 	}
 	
-	public Page<FarmAccessVehicle> findFarmAccessVehicles2(String id, Date from, Date to, Pageable pageable) {
+	@Override
+	public Page<FarmAccessVehicle> findFarmAccessVehicles2(Pageable pageable) {
 		return null;
 	}
 	
