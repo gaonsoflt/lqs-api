@@ -58,7 +58,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 		.authorizeRequests()
-			.antMatchers("/login").permitAll()
+			.antMatchers("/api/app/login").permitAll()
 			.antMatchers("/api/open/**").permitAll()
 			.antMatchers("/api/apiUserRoles/**").permitAll()
 //			.antMatchers("/api/app/**").hasRole("FARM")

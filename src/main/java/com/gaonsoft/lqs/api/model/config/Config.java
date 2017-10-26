@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Entity
@@ -15,10 +16,12 @@ import lombok.Data;
 public class Config {
 	
 	@Id
+	@ApiModelProperty(hidden = true)
 	@Column(name="cfg_group")
 	private String cfgGroup;
 	
 	@Id
+	@ApiModelProperty(hidden = true)
 	@Column(name="cfg_id")
 	private String cfgId;
 	

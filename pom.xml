@@ -90,7 +90,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-jwt</artifactId>
-<!-- 			<version>1.0.7.RELEASE</version> -->
+			<!-- <version>1.0.7.RELEASE</version> -->
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2 -->
@@ -130,6 +130,13 @@
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
 		</dependency>
+
+		<!-- OkHttp -->
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>3.9.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -149,7 +156,7 @@
 						</goals>
 						<configuration>
 							<outputDirectory>target/generated-sources/querydsl</outputDirectory>
-<!-- 							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor> -->
+							<!-- <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor> -->
 							<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
 						</configuration>
 					</execution>

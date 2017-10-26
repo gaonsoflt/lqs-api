@@ -10,7 +10,7 @@ import lombok.Data;
 @ApiModel
 public class LprControlVo {
 
-	@ApiModelProperty(required = true, value = "open/close")
+	@ApiModelProperty(required = true, notes = "동작구분", example = "open/close")
 	private String action;	
 	
 	@ApiModelProperty(required = false)

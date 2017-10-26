@@ -35,3 +35,5 @@ security:
         password
       access-token-validity-seconds: 3600
       refresh-token-validity-seconds: 3600
+server:
+  port: 6910
