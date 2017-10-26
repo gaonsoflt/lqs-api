@@ -1,7 +1,6 @@
 package com.gaonsoft.lqs.api.controller.app;
 
 import java.util.Date;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gaonsoft.lqs.api.common.exception.BadRequestException;
 import com.gaonsoft.lqs.api.common.util.DateUtil;
 import com.gaonsoft.lqs.api.model.FarmAccessVehicleSummary;
+import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
+import com.gaonsoft.lqs.api.model.farm.request.MyinfoVo;
 import com.gaonsoft.lqs.api.model.request.LprControlVo;
 import com.gaonsoft.lqs.api.service.FarmService;
 
@@ -36,27 +38,61 @@ public class FarmApiController {
 	private FarmService farmService; 
 	
 	@ApiOperation(
-		value = "updateMyinfo",
-		notes = "app 접속 패스워드 변경",
-		httpMethod = "PATCH",
+			value = "updateMyinfo",
+			notes = "농장 정보 변경",
+			httpMethod = "PATCH",
+			produces = "application/json",
+			consumes = "application/json",
+			protocols = "http",
+			response = Farm.class,
+			hidden = false
+		)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
+		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path")
+	})
+	@RequestMapping(value="/farms/{id}/myinfo", method=RequestMethod.PATCH)
+	public ResponseEntity<?> getMyinfo(
+			@PathVariable String id, 
+			@ApiParam(required = true) @RequestBody MyinfoVo body) {
+		try {
+			body.setId(Long.valueOf(id));
+			return new ResponseEntity<>(farmService.updateMyinfo(body), HttpStatus.OK);
+		} catch (NumberFormatException nfe) {
+			nfe.printStackTrace();
+			return new ResponseEntity<>(nfe.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (BadRequestException bre) {
+			bre.printStackTrace();
+			return new ResponseEntity<>(bre.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(
+		value = "getMyinfo",
+		notes = "농장 정보 조회",
+		httpMethod = "GET",
 		produces = "application/json",
 		consumes = "application/json",
 		protocols = "http",
+		response = Farm.class,
 		hidden = false
 	)
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
-		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path"),
-		@ApiImplicitParam(name="body", value="body", required=true, paramType="body", dataType="string", defaultValue="{\"password\":{password}}")
+		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path")
 	})
-	@RequestMapping(value="/farms/{id}/myinfo", method=RequestMethod.PATCH)
-	public ResponseEntity<?> updateMyinfo(
-			@PathVariable String id, 
-			@RequestBody Map<String, Object> body) {
-		if(farmService.updatePassword(id, body.get("password").toString())) {
-			return new ResponseEntity<>(HttpStatus.OK);
+	@RequestMapping(value="/farms/{id}/myinfo", method=RequestMethod.GET)
+	public ResponseEntity<?> updateMyinfo(@PathVariable String id) { 
+		try {
+			return new ResponseEntity<>(farmService.findFarmById(Long.valueOf(id)), HttpStatus.OK);
+		} catch (NumberFormatException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ApiOperation(

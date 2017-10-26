@@ -13,7 +13,6 @@ import javax.persistence.Table;
 
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gaonsoft.lqs.api.model.lpr.Lpr;
 import com.gaonsoft.lqs.api.model.system.Address;
 
@@ -37,9 +36,6 @@ public class Farm {
 	@Column(name="address_seq")
 	private Long addressSeq;
 	
-	@JsonIgnore 
-	private String password;
-	
 	@OneToOne
 	@JoinColumn(name="address_seq", referencedColumnName="address_seq", insertable=false, updatable=false, nullable=true)
 	private Address address;
@@ -48,6 +44,10 @@ public class Farm {
 	@JoinColumn(name="loc_seq")
 	@RestResource(path = "lpr", rel="lpr")
 	private List<Lpr> lpr = new ArrayList<>();
+	
+	@OneToMany
+	@JoinColumn(name="app_id", referencedColumnName="farm_seq", insertable=false, updatable=false, nullable=true)
+	private List<AppFcm> fcm = new ArrayList<>();
 	
 	public boolean isRunnabled() {
 		if(this.runnabled > 0) {

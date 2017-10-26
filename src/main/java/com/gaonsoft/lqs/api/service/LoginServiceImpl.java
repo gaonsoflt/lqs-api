@@ -101,7 +101,7 @@ public class LoginServiceImpl implements LoginService {
 			headers.set("content-type", "application/json; charset=utf-8");
 			if(response.isSuccessful()) {
 				// save token for fcm
-				appFcmRepository.save(new AppFcm(vo.getMobile_token(), vo.getId()));
+				appFcmRepository.save(new AppFcm(vo.getMobile_token(), Long.valueOf(vo.getId())));
 				return new ResponseEntity<>(mapper.readValue(response.body().string(), AccessToken.class), headers, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(new AccessToken(), headers, HttpStatus.UNAUTHORIZED);
