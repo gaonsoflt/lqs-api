@@ -9,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 import com.gaonsoft.lqs.api.model.FarmAccessVehicleSummary;
 import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
+import com.gaonsoft.lqs.api.model.farm.FarmDisease;
 import com.gaonsoft.lqs.api.model.farm.request.MyinfoVo;
+import com.gaonsoft.lqs.api.model.request.SearchFarmDiseaseVo;
 
 public interface FarmService {
 	
@@ -24,6 +26,12 @@ public interface FarmService {
 	public void updatePassword(String id, String password) throws Exception;
 	
 	public Farm updateMyinfo(MyinfoVo vo) throws Exception;
+	
+	public FarmDisease saveFarmDisease(FarmDisease vo) throws Exception;
+	
+	public FarmDisease updateFarmDisease(SearchFarmDiseaseVo vo) throws Exception;
+
+	public Page<FarmDisease> findFarmDisease(String id, boolean diseased, Pageable pageable) throws Exception;
 	
 	public boolean closeGate(String id);
 	

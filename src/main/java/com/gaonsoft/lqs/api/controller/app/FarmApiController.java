@@ -18,8 +18,10 @@ import com.gaonsoft.lqs.api.common.util.DateUtil;
 import com.gaonsoft.lqs.api.model.FarmAccessVehicleSummary;
 import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
+import com.gaonsoft.lqs.api.model.farm.FarmDisease;
 import com.gaonsoft.lqs.api.model.farm.request.MyinfoVo;
 import com.gaonsoft.lqs.api.model.request.LprControlVo;
+import com.gaonsoft.lqs.api.model.request.SearchFarmDiseaseVo;
 import com.gaonsoft.lqs.api.service.FarmService;
 
 import io.swagger.annotations.Api;
@@ -212,6 +214,108 @@ public class FarmApiController {
 			return new ResponseEntity<>(farmService.findFarmAccessVehiclesSummary(id, now, now), HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch(NumberFormatException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(
+			value = "saveFarmDisease",
+			notes = "농장 질병 등록",
+			httpMethod = "POST",
+			produces = "application/json",
+			consumes = "application/json",
+			protocols = "http",
+			response = FarmDisease.class,
+			hidden = false
+	)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
+		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path")
+	})
+	@RequestMapping(value="/farms/{id}/disease", method=RequestMethod.POST)
+	public ResponseEntity<?> saveFarmDisease(
+			@PathVariable String id, 
+			@ApiParam(required = true) @RequestBody FarmDisease body) {
+		try {
+			body.setFarmSeq(Long.valueOf(id));
+			return new ResponseEntity<>(farmService.saveFarmDisease(body), HttpStatus.OK);
+		} catch (NumberFormatException nfe) {
+			nfe.printStackTrace();
+			return new ResponseEntity<>(nfe.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(
+			value = "updateFarmDisease",
+			notes = "농장 질병상태 변경(해제)",
+			httpMethod = "PATCH",
+			produces = "application/json",
+			consumes = "application/json",
+			protocols = "http",
+			response = FarmDisease.class,
+			hidden = false
+	)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
+		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path"),
+		@ApiImplicitParam(name="seq", value="농장질병Seq", required=true, dataType="string", paramType="path")
+	})
+	@RequestMapping(value="/farms/{id}/disease/{seq}", method=RequestMethod.PATCH)
+	public ResponseEntity<?> updateFarmDisease(
+			@PathVariable String id, 
+			@PathVariable String seq, 
+			@ApiParam(required = true) @RequestBody SearchFarmDiseaseVo body) {
+		try {
+			body.setFarmSeq(Long.valueOf(id));
+			body.setSeq(Long.valueOf(seq));
+			FarmDisease result = farmService.updateFarmDisease(body);
+			if(result == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND.getReasonPhrase(), HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (NumberFormatException nfe) {
+			nfe.printStackTrace();
+			return new ResponseEntity<>(nfe.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(
+			value = "findFarmDisease",
+			notes = "농장 질병 조회",
+			httpMethod = "GET",
+			produces = "application/json",
+			consumes = "application/json",
+			protocols = "http",
+			response = FarmDisease.class,
+			hidden = false
+	)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="Authorization", value="authorization header", required=true, dataType="string", paramType="header"),
+		@ApiImplicitParam(name = "id", value = "농장ID(로그인ID)", required = true, dataType = "string", paramType = "path"),
+		@ApiImplicitParam(name = "disease", value = "발병상태만보기(default)", required = false, dataType = "boolean", paramType = "query"),
+		@ApiImplicitParam(name = "page", required = false, dataType = "long", paramType = "query", value = "Results page you want to retrieve (0..N)"),
+		@ApiImplicitParam(name = "size", required = false, dataType = "long", paramType = "query", value = "Number of records per page."),
+		@ApiImplicitParam(name = "sort", required = false, dataType = "string", paramType = "query", allowMultiple = true, value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
+	})
+	@RequestMapping(value="/farms/{id}/search/disease/", method=RequestMethod.GET)
+	public ResponseEntity<?> findFarmDisease(
+			@PathVariable String id,
+			@Param(value="disease") Boolean disease,
+			Pageable pageable) {
+		try {
+			if(disease != null) {
+				return new ResponseEntity<>(farmService.findFarmDisease(id, disease, pageable), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(farmService.findFarmDisease(id, true, pageable), HttpStatus.OK);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

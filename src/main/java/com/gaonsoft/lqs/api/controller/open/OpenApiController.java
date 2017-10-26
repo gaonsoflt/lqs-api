@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gaonsoft.lqs.api.model.meta.MetaDisease;
 import com.gaonsoft.lqs.api.service.OpenService;
 
 import io.swagger.annotations.Api;
@@ -38,5 +39,20 @@ public class OpenApiController {
 	@RequestMapping(value="/configs/search/apptel", method=RequestMethod.GET)
 	public ResponseEntity<?> findAppAdminTel() {
 		return new ResponseEntity<>(openService.findAppAdminTel(), HttpStatus.OK);
+	}
+	
+	@ApiOperation(
+		value = "findDiseaseMeta",
+		notes = "질병 목록 조회",
+		httpMethod = "GET",
+		produces = "application/json",
+		consumes = "application/json",
+		protocols = "http",
+		response = MetaDisease.class,
+		hidden = false
+	)
+	@RequestMapping(value="/metas/search/disease", method=RequestMethod.GET)
+	public ResponseEntity<?> findDiseaseMeta() {
+		return new ResponseEntity<>(openService.findDiseaseMeta(), HttpStatus.OK);
 	}
 }

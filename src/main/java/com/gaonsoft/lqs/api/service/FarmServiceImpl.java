@@ -18,12 +18,15 @@ import com.gaonsoft.lqs.api.model.FarmAccessVehicleSummary;
 import com.gaonsoft.lqs.api.model.farm.AppFcm;
 import com.gaonsoft.lqs.api.model.farm.Farm;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
+import com.gaonsoft.lqs.api.model.farm.FarmDisease;
 import com.gaonsoft.lqs.api.model.farm.request.MyinfoVo;
 import com.gaonsoft.lqs.api.model.request.SearchFarmAccessVehicleVo;
+import com.gaonsoft.lqs.api.model.request.SearchFarmDiseaseVo;
 import com.gaonsoft.lqs.api.model.user.ApiUser;
 import com.gaonsoft.lqs.api.repository.ApiUserRepository;
 import com.gaonsoft.lqs.api.repository.AppFcmRepository;
 import com.gaonsoft.lqs.api.repository.FarmAccessVehicleRepository;
+import com.gaonsoft.lqs.api.repository.FarmDiseaseRepository;
 import com.gaonsoft.lqs.api.repository.FarmRepository;
 
 /***
@@ -45,6 +48,9 @@ public class FarmServiceImpl implements FarmService {
 	
 	@Autowired
 	private AppFcmRepository appFcmRepository;
+	
+	@Autowired
+	private FarmDiseaseRepository farmDiseaseRepository;
 
 	@Override
 	public Farm findFarmById(long id) throws Exception {
@@ -119,5 +125,31 @@ public class FarmServiceImpl implements FarmService {
 					);
 		
 		return new FarmAccessVehicleSummary(result);
+	}
+
+	@Override
+	public FarmDisease saveFarmDisease(FarmDisease vo) throws Exception {
+		if(vo.getOccDt() == null) {
+			vo.setOccDt(new Date());
+		}
+		return farmDiseaseRepository.save(vo);
+	}
+
+	@Override
+	public Page<FarmDisease> findFarmDisease(String id, boolean diseased, Pageable pageable) throws Exception {
+		if(diseased) {
+			return farmDiseaseRepository.findFarmDiseaseByDiseased(id, pageable);
+		} 
+		return farmDiseaseRepository.findFarmDisease(id, pageable);
+	}
+
+	@Override
+	public FarmDisease updateFarmDisease(SearchFarmDiseaseVo vo) throws Exception {
+		FarmDisease farmDisease = farmDiseaseRepository.findOne(vo.getSeq());
+		if(farmDisease != null) {
+			farmDisease.setTerDt(vo.getTerDt());
+			return farmDiseaseRepository.save(farmDisease);
+		}
+		return null;
 	}
 }
