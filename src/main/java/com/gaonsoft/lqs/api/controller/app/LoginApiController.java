@@ -41,9 +41,9 @@ public class LoginApiController {
 	})
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public ResponseEntity<?> controlGate(@ApiParam(required = true) @RequestBody LoginVo body) {
-		if(body.getId() != null && body.getPassword() != null) {
+		if(body.getId() != null && body.getPassword() != null && body.getMobile_token() != null) {
 			try {
-				return loginService.doLogin(body.getId(), body.getPassword());
+				return loginService.doLogin(body);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

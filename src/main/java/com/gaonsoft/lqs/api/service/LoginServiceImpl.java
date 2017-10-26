@@ -16,12 +16,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gaonsoft.lqs.api.common.PwdEncryptor;
+import com.gaonsoft.lqs.api.model.farm.AppFcm;
+import com.gaonsoft.lqs.api.model.request.LoginVo;
 import com.gaonsoft.lqs.api.model.user.AccessToken;
 import com.gaonsoft.lqs.api.model.user.ApiUser;
 import com.gaonsoft.lqs.api.model.user.ApiUserRole;
 import com.gaonsoft.lqs.api.model.user.LoginUser;
 import com.gaonsoft.lqs.api.repository.ApiUserRepository;
 import com.gaonsoft.lqs.api.repository.ApiUserRoleRepository;
+import com.gaonsoft.lqs.api.repository.AppFcmRepository;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -37,6 +40,9 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Autowired
 	private ApiUserRoleRepository userRoleRepository; 
+	
+	@Autowired
+	private AppFcmRepository appFcmRepository; 
 
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 //
@@ -72,15 +78,15 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public ResponseEntity<AccessToken> doLogin(String id, String password) throws Exception {
+	public ResponseEntity<AccessToken> doLogin(LoginVo vo) throws Exception {
 		String clientCredentials = CLIENT_ID + ":" + CLIENT_SECRET;
 		String base64ClientCredentials = new String(Base64.encodeBase64(clientCredentials.getBytes()));
 		StringBuilder url = new StringBuilder();
 		url.append("http://localhost:").append(SERVER_PORT)
 			.append("/oauth/token")
 			.append("?grant_type=").append("password")
-			.append("&username=").append(id)
-			.append("&password=").append(password);
+			.append("&username=").append(vo.getId())
+			.append("&password=").append(vo.getPassword());
 		
 		Request request = new Request.Builder()
 		        .url(url.toString())
@@ -94,6 +100,8 @@ public class LoginServiceImpl implements LoginService {
 			headers.set("Pragma", "no-cache");
 			headers.set("content-type", "application/json; charset=utf-8");
 			if(response.isSuccessful()) {
+				// save token for fcm
+				appFcmRepository.save(new AppFcm(vo.getMobile_token(), vo.getId()));
 				return new ResponseEntity<>(mapper.readValue(response.body().string(), AccessToken.class), headers, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(new AccessToken(), headers, HttpStatus.UNAUTHORIZED);
