@@ -17,14 +17,14 @@ public class Driver {
 	@Column(name="driver_seq")
 	private Long driverSeq;
 	
-	@Column(name="dirver_name")
+	@Column(name="driver_name")
 	private String driverName;
 	
 	@Column(name="gender")
-	private int gender;
+	private Integer gender;
 	
 	@Column(name="age")
-	private int age;
+	private Integer age;
 	
 	@Column(name="phone")
 	private String phone;

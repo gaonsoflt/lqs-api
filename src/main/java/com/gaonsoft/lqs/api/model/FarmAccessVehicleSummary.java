@@ -1,9 +1,9 @@
 package com.gaonsoft.lqs.api.model;
 
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.gaonsoft.lqs.api.common.util.DateUtil;
 import com.gaonsoft.lqs.api.model.farm.FarmAccessVehicle;
@@ -24,7 +24,7 @@ public class FarmAccessVehicleSummary {
 	private Map<String, FarmAccessVehicleSummaryDetail> summary;
 	
 	public FarmAccessVehicleSummary(List<FarmAccessVehicle> data) {
-		this.summary = new HashMap<String, FarmAccessVehicleSummaryDetail>(); 
+		this.summary = new TreeMap<String, FarmAccessVehicleSummaryDetail>(); 
 		
 		for (FarmAccessVehicle fav : data) {
 //			System.out.println(fav.getVisitPlanDt() + " / " + fav.getCapDt());

@@ -18,6 +18,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import com.gaonsoft.lqs.api.model.car.Car;
+import com.gaonsoft.lqs.api.model.car.Driver;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -54,6 +55,12 @@ public class FarmAccessVehicle {
 	@ManyToOne
 	@JoinColumn(name="car_no", referencedColumnName="car_no", insertable=false, updatable=false, nullable=true)
 	private Car carInfo;
+	
+	@ApiModelProperty(readOnly = true)
+	@NotFound(action = NotFoundAction.IGNORE)
+	@ManyToOne
+	@JoinColumn(name="driver_seq", referencedColumnName="driver_seq", insertable=false, updatable=false, nullable=true)
+	private Driver driverInfo;
 	
 	@Column(name="cap_dt")
 	@Temporal(TemporalType.TIMESTAMP)
