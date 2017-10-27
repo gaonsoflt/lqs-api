@@ -54,7 +54,7 @@ public class FarmApiController {
 		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path")
 	})
 	@RequestMapping(value="/farms/{id}/myinfo", method=RequestMethod.PATCH)
-	public ResponseEntity<?> getMyinfo(
+	public ResponseEntity<?> updateMyinfo(
 			@PathVariable String id, 
 			@ApiParam(required = true) @RequestBody MyinfoVo body) {
 		try {
@@ -87,7 +87,7 @@ public class FarmApiController {
 		@ApiImplicitParam(name="id", value="농장ID(로그인ID)", required=true, dataType="string", paramType="path")
 	})
 	@RequestMapping(value="/farms/{id}/myinfo", method=RequestMethod.GET)
-	public ResponseEntity<?> updateMyinfo(@PathVariable String id) { 
+	public ResponseEntity<?> getMyinfo(@PathVariable String id) { 
 		try {
 			return new ResponseEntity<>(farmService.findFarmById(Long.valueOf(id)), HttpStatus.OK);
 		} catch (NumberFormatException e) {
@@ -148,7 +148,7 @@ public class FarmApiController {
 		@ApiImplicitParam(name = "size", required = false, dataType = "long", paramType = "query", value = "Number of records per page."),
 		@ApiImplicitParam(name = "sort", required = false, dataType = "string", paramType = "query", allowMultiple = true, value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
 	})
-	@RequestMapping(value="/accessvehicles/search/farm/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/farms/{id}/search/accessvehicles", method=RequestMethod.GET)
 	public ResponseEntity<?> findAccessVehicle(
 			@PathVariable String id,
 			@Param(value="from") String from,
@@ -196,7 +196,7 @@ public class FarmApiController {
 		@ApiImplicitParam(name = "from", value = "검색조건(시작)", required = false, dataType = "long", paramType = "query"),
 		@ApiImplicitParam(name = "to", value = "검색조건(종료)", required = false, dataType = "long", paramType = "query")
 	})
-	@RequestMapping(value="/accessvehicles-summary/search/farm/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/farms/{id}/search/accessvehicles-summary", method=RequestMethod.GET)
 	public ResponseEntity<?> findAccessVehicleSummary (
 			@PathVariable String id,
 			@Param(value="from") String from,
@@ -305,7 +305,7 @@ public class FarmApiController {
 		@ApiImplicitParam(name = "size", required = false, dataType = "long", paramType = "query", value = "Number of records per page."),
 		@ApiImplicitParam(name = "sort", required = false, dataType = "string", paramType = "query", allowMultiple = true, value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
 	})
-	@RequestMapping(value="/farms/{id}/search/disease/", method=RequestMethod.GET)
+	@RequestMapping(value="/farms/{id}/search/disease", method=RequestMethod.GET)
 	public ResponseEntity<?> findFarmDisease(
 			@PathVariable String id,
 			@Param(value="disease") Boolean disease,

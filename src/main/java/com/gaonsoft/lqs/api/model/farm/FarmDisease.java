@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.gaonsoft.lqs.api.model.meta.MetaDisease;
+import com.gaonsoft.lqs.api.model.disease.MetaDisease;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

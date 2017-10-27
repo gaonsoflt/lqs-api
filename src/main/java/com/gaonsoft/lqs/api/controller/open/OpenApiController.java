@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gaonsoft.lqs.api.model.meta.MetaDisease;
+import com.gaonsoft.lqs.api.model.disease.DiseaseWarnStage;
+import com.gaonsoft.lqs.api.model.disease.MetaDisease;
 import com.gaonsoft.lqs.api.service.OpenService;
 
 import io.swagger.annotations.Api;
@@ -38,7 +39,12 @@ public class OpenApiController {
 	
 	@RequestMapping(value="/configs/search/apptel", method=RequestMethod.GET)
 	public ResponseEntity<?> findAppAdminTel() {
-		return new ResponseEntity<>(openService.findAppAdminTel(), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(openService.findAppAdminTel(), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@ApiOperation(
@@ -53,6 +59,31 @@ public class OpenApiController {
 	)
 	@RequestMapping(value="/metas/search/disease", method=RequestMethod.GET)
 	public ResponseEntity<?> findDiseaseMeta() {
-		return new ResponseEntity<>(openService.findDiseaseMeta(), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(openService.findDiseaseMeta(), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(
+			value = "getDiseaseWarnStage",
+			notes = "질병위기상태 조회",
+			httpMethod = "GET",
+			produces = "application/json",
+			consumes = "application/json",
+			protocols = "http",
+			response = DiseaseWarnStage.class,
+			hidden = false
+	)
+	@RequestMapping(value="/disease-warnstages", method=RequestMethod.GET)
+	public ResponseEntity<?> getDiseaseWarnStage() { 
+		try {
+			return new ResponseEntity<>(openService.findDiseaseWarnStage(), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

@@ -1,4 +1,4 @@
-package com.gaonsoft.lqs.api.model.meta;
+package com.gaonsoft.lqs.api.model.disease;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
